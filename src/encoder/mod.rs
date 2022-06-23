@@ -50,7 +50,7 @@ use self::writer::*;
 /// # }
 /// ```
 pub struct TiffEncoder<W, K: TiffKind = TiffKindStandard> {
-    writer: TiffWriter<W>,
+    pub writer: TiffWriter<W>,
     kind: PhantomData<K>,
 }
 
