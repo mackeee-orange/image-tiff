@@ -18,7 +18,7 @@ use crate::{
 pub mod colortype;
 pub mod compression;
 mod tiff_value;
-mod writer;
+pub mod writer;
 
 use self::colortype::*;
 use self::compression::*;
@@ -162,7 +162,7 @@ pub struct DirectoryEncoder<'a, W: 'a + Write + Seek, K: TiffKind> {
 }
 
 impl<'a, W: 'a + Write + Seek, K: TiffKind> DirectoryEncoder<'a, W, K> {
-    fn new(writer: &'a mut TiffWriter<W>) -> TiffResult<Self> {
+    pub fn new(writer: &'a mut TiffWriter<W>) -> TiffResult<Self> {
         // the previous word is the IFD offset position
         let ifd_pointer_pos = writer.offset() - mem::size_of::<K::OffsetType>() as u64;
         writer.pad_word_boundary()?; // TODO: Do we need to adjust this for BigTiff?
@@ -336,7 +336,7 @@ pub struct ImageEncoder<
 impl<'a, W: 'a + Write + Seek, T: ColorType, K: TiffKind, D: Compression>
     ImageEncoder<'a, W, T, K, D>
 {
-    fn new(encoder: DirectoryEncoder<'a, W, K>, width: u32, height: u32) -> TiffResult<Self>
+    pub fn new(encoder: DirectoryEncoder<'a, W, K>, width: u32, height: u32) -> TiffResult<Self>
     where
         D: Default,
     {
